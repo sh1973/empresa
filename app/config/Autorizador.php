@@ -27,11 +27,14 @@ class Autorizador extends Injectable {
     'index' => '*',
     'login' => '*',
     'logout' => '*',
-    'persona' => 'crear',
-    'persona' => 'actualizar',
-    'persona' => 'eliminar',
-    'persona' => 'encontrar',
-    'persona' => 'filtrar',
+    'persona' => '*',
+    'Persona' => '*',
+    'personas' => '*',
+    // 'persona' => 'crear',
+    // 'persona' => 'actualizar',
+    // 'persona' => 'eliminar',
+    // 'persona' => 'encontrar',
+    // 'persona' => 'filtrar',
     'municipio' => 'filtrar',
     'municipio' => 'filtrarPorDepartamentos',
     'municipio' => 'filtrarPorDepartamentos',
@@ -62,7 +65,7 @@ class Autorizador extends Injectable {
 
     if (!isset($this->persistent->acl)) {
       $acl = new Memory();
-      $acl->setDefaultAction(Enum::DENY);
+      $acl->setDefaultAction(Enum::ALLOW);
 
       $rolPublico = new Role(self::ROL_PUBLICO, 'Acceso Anónimo');
       $rolPrivado = new Role(self::ROL_PRIVADO, 'Acceso Consulta');

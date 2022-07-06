@@ -62,8 +62,12 @@ class Persona extends BaseModel
   }
 
   public function beforeValidationOnCreate() {
+    if ($this->clave == '') {
+      $this->flash->warning('La clave es obligatoria.');
+      return false;
+    }
     if (strlen($this->clave) < 8) {
-      $this->flash->warning('La clave debe tener mínimo 8 caracteres:' . $this->clave);
+      $this->flash->warning('La clave debe tener mínimo 8 caracteres.');
       return false;
     }
   }

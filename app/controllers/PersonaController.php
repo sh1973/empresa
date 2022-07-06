@@ -188,6 +188,7 @@ class PersonaController extends BaseController
         $response->setContentType('application/json', 'UTF-8');
 
         $json = $this->request->getJsonRawBody();
+
         $nombre = $json->nombre;
         $id_tipo_documento = $json->id_tipo_documento;
         $numero_documento = $json->numero_documento;
@@ -206,6 +207,8 @@ class PersonaController extends BaseController
         $persona->usuario = $usuario;
         $persona->clave = $clave;
         $persona->rol = $rol;
+
+        // var_dump($persona); die;
 
         $resultado = $persona->create();
 
@@ -304,8 +307,7 @@ class PersonaController extends BaseController
         $response = new Response();
         $response->setContentType('application/json', 'UTF-8');
 
-        $json = $this->request->getJsonRawBody();
-        $id = $json->id;
+        $id = $this->dispatcher->getParams()[0];
 
         if (!$id) {
             $response->setStatusCode(400, 'Bad Request');
@@ -353,11 +355,12 @@ class PersonaController extends BaseController
 
         if (!$persona) {
             $nombre = $this->request->getPost('nombre');
-            // var_dump($usuario);die;
+            // var_dump($nombre);die;
             $persona = Persona::findFirstByNombre($nombre);
         }
 
         if (!$persona) {
+            $this->flash->notice("Creando persona");
             $ok = $this->createAction();
         }
         else {
@@ -365,8 +368,13 @@ class PersonaController extends BaseController
         }
 
         if ($ok) {
-            $this->response->redirect("persona");
+            $this->flash->success("¡La persona se pudo guardar!");
         }
+        else {
+            $this->flash->error("¡La persona no se pudo guardar!");
+        }
+
+        $this->response->redirect("persona");
 
     }
 
@@ -395,8 +403,12 @@ class PersonaController extends BaseController
             $this->response->redirect('/persona');
             return;
         }
-        if ($clave) {
+        if ($clave != '') {
             $persona->clave = $this->security->hash($clave);
+        }
+        else {
+            $this->flash->error("¡La clave es necesaria!");
+            return false;
         }
 
         $persona->rol = $this->request->getPost('rol');
@@ -441,7 +453,7 @@ class PersonaController extends BaseController
             $this->response->redirect('/persona?id'.$id);
             return;
         }
-        if ($clave) {
+        if ($clave != '') {
             $persona->clave = $this->security->hash($clave);
         }
         
