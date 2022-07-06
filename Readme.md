@@ -78,7 +78,7 @@ Nota: es posible que el servicio de phalcon le pregunte si desea crear carpetas 
 Como comprobar que está funcionando el aplicativo:
 Abrir en alguno de los navegadores más populares (Chrome, Firefox, Brave) el aplicativo en la siguiente URL:
 
-http://<ip-servidor-aplicacion>:8000
+http://localhost:8000
 
 Debería entonces aparecerle la aplicación en su navegador.
 
